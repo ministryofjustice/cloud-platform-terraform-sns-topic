@@ -8,11 +8,6 @@ output "topic_name" {
   value       = aws_sns_topic.new_topic.name
 }
 
-output "user_name" {
-  description = "Username for the topic"
-  value       = join("", aws_iam_user.user.*.name)
-}
-
 output "topic_arn" {
   description = "ARN for the topic"
   value       = aws_sns_topic.new_topic.arn
