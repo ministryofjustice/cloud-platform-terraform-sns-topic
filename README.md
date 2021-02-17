@@ -8,10 +8,28 @@ Terraform module that will create an SNS Topic in AWS, along with an IAM User to
 
 ```hcl
 module "example_sns_topic" {
-  source = "github.com/ministryofjustice/cloud-platform-terraform-sns"
+  source = "github.com/ministryofjustice/cloud-platform-terraform-sns?ref=version"
 
-  team_name          = "example-repo"
+  team_name          = "example-team"
   topic_display_name = "example-topic-display-name"
+  
+  providers = {
+    aws = aws.london
+  }
+}
+```
+
+## SQS Subscription
+
+For an SQS queue defined in the same namespace's /resources, a subscription can be added with a syntax like
+
+```hcl
+resource "aws_sns_topic_subscription" "example-queue-subscription" {
+  provider      = "aws.london"
+  topic_arn     = "${module.example_sns_topic.topic_arn}"
+  protocol      = "sqs"
+  endpoint      = "${module.example_sqs.sqs_arn}"
+  filter_policy = "{\"field_name\": [\"string_pattern\", \"string_pattern\", \"...\"]}"
 }
 ```
 
