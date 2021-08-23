@@ -13,3 +13,9 @@ variable "aws_region" {
   default     = "eu-west-2"
   type        = string
 }
+
+variable "encrypt_sns_kms" {
+  description = "If set to true, this will create aws_kms_key and aws_kms_alias resources and add kms_master_key_id in aws_sns_topic resource"
+  type        = bool
+  default     = false
+}
