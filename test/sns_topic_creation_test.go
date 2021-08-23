@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -21,7 +22,7 @@ func TestSNSCreation(t *testing.T) {
 	snsArn := terraform.Output(t, terraformOptions, "sns_arn")
 	snsName := terraform.Output(t, terraformOptions, "sns_name")
 
-	assert.Equal(t, "arn:aws:sns:eu-west-2:000000000000:cloud-platform-development-unit-test", snsArn)
-	assert.Equal(t, "cloud-platform-development-unit-test", snsName)
+	assert.Regexp(t, regexp.MustCompile(`^arn:aws:sns:::cloud-platform-*`), snsArn)
+	assert.Regexp(t, regexp.MustCompile(`^cloud-platform-*`), snsName)
 
 }
