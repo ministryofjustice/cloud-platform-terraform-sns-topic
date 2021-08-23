@@ -22,7 +22,7 @@ func TestSNSCreation(t *testing.T) {
 	snsArn := terraform.Output(t, terraformOptions, "sns_arn")
 	snsName := terraform.Output(t, terraformOptions, "sns_name")
 
-	assert.Regexp(t, regexp.MustCompile(`^arn:aws:sns:::cloud-platform-*`), snsArn)
+	assert.Regexp(t, regexp.MustCompile(`^arn:aws:sns:eu-west-2:000000000000:cloud-platform-*`), snsArn)
 	assert.Regexp(t, regexp.MustCompile(`^cloud-platform-*`), snsName)
 
 }
