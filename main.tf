@@ -6,7 +6,7 @@ resource "random_id" "id" {
 }
 
 resource "aws_kms_key" "kms" {
-  description = "KMS key for ${aws_sns_topic.new_topic.name}"
+  description = "KMS key for cloud-platform-${var.team_name}-${random_id.id.hex}"
   count       = var.encrypt_sns_kms ? 1 : 0
 
   policy = <<EOF
