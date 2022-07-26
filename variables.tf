@@ -8,12 +8,6 @@ variable "team_name" {
   type        = string
 }
 
-variable "aws_region" {
-  description = "Region into which the resource will be created"
-  default     = "eu-west-2"
-  type        = string
-}
-
 variable "encrypt_sns_kms" {
   description = "If set to true, this will create aws_kms_key and aws_kms_alias resources and add kms_master_key_id in aws_sns_topic resource"
   type        = bool
