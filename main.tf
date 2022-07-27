@@ -1,6 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-
 resource "random_id" "id" {
   byte_length = 16
 }
@@ -77,12 +76,11 @@ resource "aws_kms_alias" "alias" {
   target_key_id = aws_kms_key.kms[0].key_id
 }
 
-
-// SNS topics do not support tagging, however, the name can be up to 256
-// characters so it should be safe to use the team name here for identification.
+# SNS topics do not support tagging, however, the name can be up to 256
+# characters so it should be safe to use the team name here for identification.
 resource "aws_sns_topic" "new_topic" {
-  name         = "cloud-platform-${var.team_name}-${random_id.id.hex}"
-  display_name = var.topic_display_name
+  name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
+  display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms.*.arn) : ""
 }
 
