@@ -17,4 +17,5 @@ variable "encrypt_sns_kms" {
 variable "policy" {
   description = "The policy of the topic"
   type        = string
+  default     = ""
 }
