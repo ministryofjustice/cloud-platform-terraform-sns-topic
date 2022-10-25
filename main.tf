@@ -82,6 +82,7 @@ resource "aws_sns_topic" "new_topic" {
   name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms.*.arn) : ""
+  policy = var.policy
 }
 
 resource "aws_iam_user" "user" {

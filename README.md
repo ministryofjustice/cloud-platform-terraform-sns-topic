@@ -67,12 +67,13 @@ No Modules.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| aws\_region | Region into which the resource will be created | `string` | `"eu-west-2"` | no |
-| encrypt\_sns\_kms | If set to true, this will create aws\_kms\_key and aws\_kms\_alias resources and add kms\_master\_key\_id in aws\_sns\_topic resource | `bool` | `false` | no |
-| team\_name | The name of your team | `string` | n/a | yes |
-| topic\_display\_name | The display name of your SNS Topic. MUST BE UNDER 10 CHARS | `string` | n/a | yes |
+| Name                 | Description                                                                                                                           | Type | Default | Required |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------|------|---------|:--------:|
+| aws\_region          | Region into which the resource will be created                                                                                        | `string` | `"eu-west-2"` |    no    |
+| encrypt\_sns\_kms    | If set to true, this will create aws\_kms\_key and aws\_kms\_alias resources and add kms\_master\_key\_id in aws\_sns\_topic resource | `bool` | `false` |    no    |
+| team\_name           | The name of your team                                                                                                                 | `string` | n/a |   yes    |
+| topic\_display\_name | The display name of your SNS Topic. MUST BE UNDER 10 CHARS                                                                            | `string` | n/a |   yes    |
+| policy               | The policy of the topic                                                                                                               | `string` | n/a |    no    |
 
 ## Outputs
 
