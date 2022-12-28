@@ -12,3 +12,18 @@ terraform {
     }
   }
 }
+
+provider "aws" {
+  # Sets the default tags for all taggable things
+  default_tags {
+    tags = {
+      business-unit          = var.business-unit
+      application            = var.application
+      is-production          = var.is-production
+      owner                  = var.team_name
+      environment-name       = var.environment-name
+      infrastructure-support = var.infrastructure-support
+      namespace              = var.namespace
+    }
+  }
+}
