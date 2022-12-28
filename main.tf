@@ -82,6 +82,16 @@ resource "aws_sns_topic" "new_topic" {
   name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms[*].arn) : ""
+
+  tags = {
+    business-unit          = var.business_unit
+    application            = var.application
+    is-production          = var.is_production
+    owner                  = var.team_name
+    environment-name       = var.environment_name
+    infrastructure-support = var.infrastructure_support
+    namespace              = var.namespace
+  }
 }
 
 resource "aws_iam_user" "user" {
