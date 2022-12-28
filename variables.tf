@@ -11,7 +11,7 @@ variable "encrypt_sns_kms" {
 }
 
 # Used for naming things and tags
-variable "business-unit" {
+variable "business_unit" {
   description = "Area of the MOJ responsible for the service"
   type        = string
 }
@@ -21,7 +21,7 @@ variable "application" {
   type        = string
 }
 
-variable "is-production" {
+variable "is_production" {
   description = "Whether the environment is production or not"
   type        = string
   default     = "false"
@@ -32,12 +32,12 @@ variable "team_name" {
   type        = string
 }
 
-variable "environment-name" {
+variable "environment_name" {
   description = "Environment name"
   type        = string
 }
 
-variable "infrastructure-support" {
+variable "infrastructure_support" {
   description = "The team responsible for managing the infrastructure. Should be of the form <team-name> (<team-email>)"
   type        = string
 }
