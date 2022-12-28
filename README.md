@@ -84,5 +84,4 @@ No modules.
 | <a name="output_topic_arn"></a> [topic\_arn](#output\_topic\_arn) | ARN for the topic |
 | <a name="output_topic_name"></a> [topic\_name](#output\_topic\_name) | ARN for the topic |
 | <a name="output_user_name"></a> [user\_name](#output\_user\_name) | IAM user with access to the topic |
-
 <!-- END_TF_DOCS -->
