@@ -67,7 +67,6 @@ resource "aws_kms_key" "kms" {
     ]
   }
 EOF
-
 }
 
 resource "aws_kms_alias" "alias" {
@@ -76,12 +75,23 @@ resource "aws_kms_alias" "alias" {
   target_key_id = aws_kms_key.kms[0].key_id
 }
 
-# SNS topics do not support tagging, however, the name can be up to 256
-# characters so it should be safe to use the team name here for identification.
+# SNS topics didn't initially support tagging, so the SNS topic name includes
+# the team name for identification purposes.
+# Tagging was added to this module on 2022-12-28.
 resource "aws_sns_topic" "new_topic" {
   name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   display_name      = var.topic_display_name
-  kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms.*.arn) : ""
+  kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms[*].arn) : ""
+
+  tags = {
+    business-unit          = var.business_unit
+    application            = var.application
+    is-production          = var.is_production
+    owner                  = var.team_name
+    environment-name       = var.environment_name
+    infrastructure-support = var.infrastructure_support
+    namespace              = var.namespace
+  }
 }
 
 resource "aws_iam_user" "user" {
