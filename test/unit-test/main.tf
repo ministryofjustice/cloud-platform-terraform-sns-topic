@@ -22,8 +22,13 @@ provider "aws" {
 module "sns" {
   source = "../.."
 
-  team_name          = "cloud-platform"
-  topic_display_name = "cloud-platform-topic-display-name"
-
+  topic_display_name     = "cloud-platform-topic-display-name"
+  business_unit          = "example"
+  application            = "example"
+  is_production          = "false"
+  team_name              = "cloud-platform"
+  environment_name       = "example"
+  infrastructure_support = "example"
+  namespace              = "example"
 }
 
