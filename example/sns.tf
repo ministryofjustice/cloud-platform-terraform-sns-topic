@@ -5,10 +5,16 @@
  *
  */
 module "example_sns_topic" {
-  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=4.5"
+  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=4.6"
 
-  team_name          = "example-team"
-  topic_display_name = "example-topic-display-name"
+  topic_display_name     = "example-topic-display-name"
+  business_unit          = "example"
+  application            = "example"
+  is_production          = "false"
+  team_name              = "example-team"
+  environment_name       = "example"
+  infrastructure_support = "example"
+  namespace              = "example"
 
   providers = {
     aws = aws.london
