@@ -15,10 +15,10 @@ output "topic_arn" {
 
 output "access_key_id" {
   description = "The access key ID"
-  value       = aws_iam_access_key.user.id
+  value       = aws_iam_access_key.user_2023.id
 }
 
 output "secret_access_key" {
   description = "The secret access key ID"
-  value       = aws_iam_access_key.user.secret
+  value       = aws_iam_access_key.user_2023.secret
 }

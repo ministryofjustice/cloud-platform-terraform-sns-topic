@@ -99,7 +99,7 @@ resource "aws_iam_user" "user" {
   path = "/system/sns-topic-user/${var.team_name}/"
 }
 
-resource "aws_iam_access_key" "user" {
+resource "aws_iam_access_key" "user_2023" {
   user = aws_iam_user.user.name
 }
 
