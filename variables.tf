@@ -32,6 +32,12 @@ variable "team_name" {
   type        = string
 }
 
+variable "additional_team_names" {
+  description = "A list of additional team names that require access to the topic. A dedicated IAM user and access keywill be created for each team."
+  type        = list(string)
+  default     = []
+}
+
 variable "environment_name" {
   description = "Environment name"
   type        = string
