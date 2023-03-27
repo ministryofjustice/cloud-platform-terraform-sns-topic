@@ -72,7 +72,7 @@ EOF
 resource "aws_kms_alias" "alias" {
   count         = var.encrypt_sns_kms ? 1 : 0
   name          = "alias/cloud-platform-${var.team_name}-${random_id.id.hex}"
-  target_key_id = sensitive(aws_kms_key.kms[0].key_id)
+  target_key_id = aws_kms_key.kms[0].key_id
 }
 
 # SNS topics didn't initially support tagging, so the SNS topic name includes
@@ -81,7 +81,7 @@ resource "aws_kms_alias" "alias" {
 resource "aws_sns_topic" "new_topic" {
   name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   display_name      = var.topic_display_name
-  kms_master_key_id = var.encrypt_sns_kms ? join("", sensitive(aws_kms_key.kms[*].arn)) : ""
+  kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms[*].arn) : ""
 
   tags = {
     business-unit          = var.business_unit
