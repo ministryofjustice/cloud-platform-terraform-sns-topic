@@ -49,5 +49,5 @@ variable "namespace" {
 
 variable "additional_team_names" {
   description = "A list of additional team names that require access to the topic. A dedicated IAM user and access key will be created for each team."
-  default = ""
+  default = []
 }
