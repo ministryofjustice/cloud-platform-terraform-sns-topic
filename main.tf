@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  additional_teams = toset(var.additional_teams)
+  additional_teams = toset(var.additional_team_names)
 }
 resource "random_id" "id" {
   byte_length = 16
