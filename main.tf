@@ -1,15 +1,11 @@
 data "aws_caller_identity" "current" {}
 
-locals {
-  team_names = toset(concat([var.team_name], var.additional_team_names))
-}
 resource "random_id" "id" {
-  for_each    = local.team_names
   byte_length = 16
 }
 
 resource "aws_kms_key" "kms" {
-  description = "KMS key for cloud-platform-${var.team_name}-${random_id.id[var.team_name].hex}"
+  description = "KMS key for cloud-platform-${var.team_name}-${random_id.id.hex}"
   count       = var.encrypt_sns_kms ? 1 : 0
 
   policy = <<EOF
@@ -75,7 +71,7 @@ EOF
 
 resource "aws_kms_alias" "alias" {
   count         = var.encrypt_sns_kms ? 1 : 0
-  name          = "alias/cloud-platform-${var.team_name}-${random_id.id[var.team_name].hex}"
+  name          = "alias/cloud-platform-${var.team_name}-${random_id.id.hex}"
   target_key_id = aws_kms_key.kms[0].key_id
 }
 
@@ -83,7 +79,7 @@ resource "aws_kms_alias" "alias" {
 # the team name for identification purposes.
 # Tagging was added to this module on 2022-12-28.
 resource "aws_sns_topic" "new_topic" {
-  name              = "cloud-platform-${var.team_name}-${random_id.id[var.team_name].hex}"
+  name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms[*].arn) : ""
 
@@ -99,14 +95,12 @@ resource "aws_sns_topic" "new_topic" {
 }
 
 resource "aws_iam_user" "user" {
-  for_each = local.team_names
-  name = "cp-sns-topic-${random_id.id[each.value].hex}"
-  path = "/system/sns-topic-user/${each.value}/"
+  name = "cp-sns-topic-${random_id.id.hex}"
+  path = "/system/sns-topic-user/${var.team_name}/"
 }
 
 resource "aws_iam_access_key" "user" {
-  for_each = local.team_names
-  user = aws_iam_user.user[each.value].name
+  user = aws_iam_user.user.name
 }
 
 data "aws_iam_policy_document" "policy" {
@@ -147,8 +141,30 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_iam_user_policy" "policy" {
-  for_each = local.team_names
   name   = "sns-topic"
   policy = data.aws_iam_policy_document.policy.json
-  user   = aws_iam_user.user[each.value].name
+  user   = aws_iam_user.user.name
+}
+
+resource "random_id" "user_id" {
+  for_each    = var.additional_team_names
+  byte_length = 16
+}
+
+resource "aws_iam_user" "additional_users" {
+  for_each = var.additional_team_names
+  name     = "cp-sns-topic-${random_id.user_id[each.value].hex}"
+  path     = "/system/sns-topic-user/${each.value}/"
+}
+
+resource "aws_iam_access_key" "additional_users" {
+  for_each = var.additional_team_names
+  user     = aws_iam_user.additional_users[each.value].name
+}
+
+resource "aws_iam_user_policy" "additional_users_policy" {
+  for_each = var.additional_team_names
+  name     = "sns-topic"
+  policy   = data.aws_iam_policy_document.policy.json
+  user     = aws_iam_user.user[each.value].name
 }

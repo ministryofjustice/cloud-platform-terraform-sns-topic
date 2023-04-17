@@ -15,18 +15,21 @@ output "topic_arn" {
 
 output "access_key_id" {
   description = "The access key ID"
-  value       = aws_iam_access_key.user[var.team_name].id
+  value       = aws_iam_access_key.user.id
 }
 
 output "secret_access_key" {
   description = "The secret access key ID"
-  value       = aws_iam_access_key.user[var.team_name].secret
+  value       = aws_iam_access_key.user.secret
 }
 
-output "access_keys" {
-  description = "The list of access keys for all teams"
-  value = [for key in aws_iam_access_key.user : {
-    id = key.id,
-    secret = key.secret
-  }]
+output "additional_access_keys" {
+  description = "The list of access keys for additional teams"
+  value = {
+    for team in var.additional_team_names : team => {
+      user_name         = aws_iam_user.additional_users[team].name
+      access_key_id     = aws_iam_access_key.additional_users[team].id
+      secret_access_key = aws_iam_access_key.additional_users[team].secret
+    }
+  }
 }
