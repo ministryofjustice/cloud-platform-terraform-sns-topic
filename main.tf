@@ -169,5 +169,5 @@ resource "aws_iam_user_policy" "additional_users_policy" {
   for_each = local.additional_teams
   name     = "sns-topic"
   policy   = data.aws_iam_policy_document.policy.json
-  user     = aws_iam_user.user[each.value].name
+  user     = aws_iam_user.additional_users[each.value].name
 }
