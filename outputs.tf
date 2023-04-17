@@ -1,6 +1,6 @@
 output "user_name" {
   description = "IAM user with access to the topic"
-  value       = aws_iam_user.user[var.team_name].name
+  value       = aws_iam_user.user.name
 }
 
 output "topic_name" {

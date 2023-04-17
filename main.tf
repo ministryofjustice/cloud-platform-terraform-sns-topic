@@ -1,5 +1,8 @@
 data "aws_caller_identity" "current" {}
 
+locals {
+  additional_teams = toset(var.additional_teams)
+}
 resource "random_id" "id" {
   byte_length = 16
 }
@@ -147,23 +150,23 @@ resource "aws_iam_user_policy" "policy" {
 }
 
 resource "random_id" "user_id" {
-  for_each    = var.additional_team_names
+  for_each    = local.additional_teams
   byte_length = 16
 }
 
 resource "aws_iam_user" "additional_users" {
-  for_each = var.additional_team_names
+  for_each = local.additional_teams
   name     = "cp-sns-topic-${random_id.user_id[each.value].hex}"
   path     = "/system/sns-topic-user/${each.value}/"
 }
 
 resource "aws_iam_access_key" "additional_users" {
-  for_each = var.additional_team_names
+  for_each = local.additional_teams
   user     = aws_iam_user.additional_users[each.value].name
 }
 
 resource "aws_iam_user_policy" "additional_users_policy" {
-  for_each = var.additional_team_names
+  for_each = local.additional_teams
   name     = "sns-topic"
   policy   = data.aws_iam_policy_document.policy.json
   user     = aws_iam_user.user[each.value].name
