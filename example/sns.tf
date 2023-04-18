@@ -16,6 +16,10 @@ module "example_sns_topic" {
   infrastructure_support = "example"
   namespace              = "example"
 
+  # Uncomment additional_team_names and populate list for provisioning additional IAM user/access keys for topic access
+  # via other namespaces - see kubernetes_secret examples below
+  #
+  # additional_team_names = [ "team-1","team-2" ]
   providers = {
     aws = aws.london
   }
@@ -34,3 +38,17 @@ resource "kubernetes_secret" "example_sns_topic" {
   }
 }
 
+# Example for pushing additional user/access key secrets into namespaces 
+#
+# resource "kubernetes_secret" "team_1_secret" {
+#   metadata {
+#     name      = "sns-topic-sns-user"
+#     namespace = "another-namespace"
+#   }
+
+#   data = {
+#     access_key_id     = module.sw_sns.additional_access_keys["team-1"].access_key_id
+#     secret_access_key = module.sw_sns.additional_access_keys["team-1"].secret_access_key
+#     topic_arn         = module.sw_sns.topic_arn
+#   }
+# }
