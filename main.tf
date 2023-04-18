@@ -149,14 +149,14 @@ resource "aws_iam_user_policy" "policy" {
   user   = aws_iam_user.user.name
 }
 
-resource "random_id" "user_id" {
+resource "random_id" "additional_user_id" {
   for_each    = local.additional_teams
   byte_length = 16
 }
 
 resource "aws_iam_user" "additional_users" {
   for_each = local.additional_teams
-  name     = "cp-sns-topic-${random_id.user_id[each.value].hex}"
+  name     = "cp-sns-topic-${random_id.additional_user_id[each.value].hex}"
   path     = "/system/sns-topic-user/${each.value}/"
 }
 
