@@ -47,7 +47,7 @@ variable "namespace" {
   type        = string
 }
 
-variable "additional_team_names" {
-  description = "A list of additional team names that require access to the topic. A dedicated IAM user and access key will be created for each team."
+variable "additional_topic_clients" {
+  description = "A list of additional clients that require access to the topic. A dedicated IAM user and access key will be created for each client."
   default     = []
 }
