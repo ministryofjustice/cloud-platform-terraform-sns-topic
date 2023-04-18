@@ -26,10 +26,10 @@ output "secret_access_key" {
 output "additional_access_keys" {
   description = "The list of access keys for additional teams"
   value = {
-    for team in var.additional_topic_clients : team => {
-      user_name         = aws_iam_user.additional_users[team].name
-      access_key_id     = aws_iam_access_key.additional_users[team].id
-      secret_access_key = aws_iam_access_key.additional_users[team].secret
+    for client in var.additional_topic_clients : client => {
+      user_name         = aws_iam_user.additional_users[client].name
+      access_key_id     = aws_iam_access_key.additional_users[client].id
+      secret_access_key = aws_iam_access_key.additional_users[client].secret
     }
   }
 }
