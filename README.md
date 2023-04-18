@@ -75,7 +75,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_team_names"></a> [additional\_team\_names](#input\_additional\_team\_names) | A list of additional team names that require access to the topic. A dedicated IAM user and access key will be created for each team. | `list` | `[]` | no |
+| <a name="input_additional_topic_clients"></a> [additional\_topic\_clients](#input\_additional\_topic\_clients) | A list of additional clients that require access to the topic. A dedicated IAM user and access key will be created for each client. | `list` | `[]` | no |
 | <a name="input_application"></a> [application](#input\_application) | Application name | `string` | n/a | yes |
 | <a name="input_business_unit"></a> [business\_unit](#input\_business\_unit) | Area of the MOJ responsible for the service | `string` | n/a | yes |
 | <a name="input_encrypt_sns_kms"></a> [encrypt\_sns\_kms](#input\_encrypt\_sns\_kms) | If set to true, this will create aws\_kms\_key and aws\_kms\_alias resources and add kms\_master\_key\_id in aws\_sns\_topic resource | `bool` | `false` | no |
