@@ -93,7 +93,7 @@ No modules.
 |------|-------------|
 | <a name="output_access_key_id"></a> [access\_key\_id](#output\_access\_key\_id) | The access key ID |
 | <a name="output_additional_access_keys"></a> [additional\_access\_keys](#output\_additional\_access\_keys) | The list of access keys for additional teams |
-| <a name="output_aws_iam_policy_document"></a> [aws\_iam\_policy\_document](#output\_aws\_iam\_policy\_document) | The iam policy with permissions for this SNS topic, use this output to create IRSA based kubernetes service accounts. |
+| <a name="output_aws_iam_policy"></a> [aws\_iam\_policy](#output\_aws\_iam\_policy) | The iam policy with permissions for this SNS topic, use this policy to create IRSA based kubernetes service accounts. |
 | <a name="output_secret_access_key"></a> [secret\_access\_key](#output\_secret\_access\_key) | The secret access key ID |
 | <a name="output_topic_arn"></a> [topic\_arn](#output\_topic\_arn) | ARN for the topic |
 | <a name="output_topic_name"></a> [topic\_name](#output\_topic\_name) | ARN for the topic |
