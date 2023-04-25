@@ -33,3 +33,8 @@ output "additional_access_keys" {
     }
   }
 }
+
+output "aws_iam_policy_document" {
+  description = "The iam policy document which define permissions accessing for this SNS topic, use this output to create IRSA based kubernetes service account."
+  value       = try(data.aws_iam_policy_document.policy.json, "")
+}
