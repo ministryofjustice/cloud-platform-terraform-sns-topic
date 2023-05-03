@@ -33,3 +33,7 @@ output "additional_access_keys" {
     }
   }
 }
+
+output "irsa_policy_arn" {
+  value = aws_iam_policy.irsa.arn
+}
