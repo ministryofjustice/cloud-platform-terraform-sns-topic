@@ -34,7 +34,6 @@ output "additional_access_keys" {
   }
 }
 
-output "aws_iam_policy_arn" {
-  description = "The arn of the policy defining permissions for this SNS topic, use this policy to create IRSA based kubernetes service accounts."
-  value       = try(aws_iam_policy.irsa.arn, "")
+output "irsa_policy_arn" {
+  value = aws_iam_policy.irsa.arn
 }
