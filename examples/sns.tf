@@ -20,9 +20,6 @@ module "example_sns_topic" {
   # via other namespaces - see kubernetes_secret examples below
   #
   # additional_topic_clients = [ "team-1","team-2" ]
-  providers = {
-    aws = aws.london
-  }
 }
 
 resource "kubernetes_secret" "example_sns_topic" {
