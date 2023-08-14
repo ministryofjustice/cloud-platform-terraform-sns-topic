@@ -5,7 +5,7 @@
  *
  */
 module "example_sns_topic" {
-  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=4.6"
+  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=4.9.0"
 
   topic_display_name     = "example-topic-display-name"
   business_unit          = "example"
@@ -20,9 +20,6 @@ module "example_sns_topic" {
   # via other namespaces - see kubernetes_secret examples below
   #
   # additional_topic_clients = [ "team-1","team-2" ]
-  providers = {
-    aws = aws.london
-  }
 }
 
 resource "kubernetes_secret" "example_sns_topic" {
@@ -38,7 +35,7 @@ resource "kubernetes_secret" "example_sns_topic" {
   }
 }
 
-# Example for pushing additional user/access key secrets into namespaces 
+# Example for pushing additional user/access key secrets into namespaces
 #
 # resource "kubernetes_secret" "team_1_secret" {
 #   metadata {
@@ -54,7 +51,7 @@ resource "kubernetes_secret" "example_sns_topic" {
 # }
 
 # Or, define your additional_topic_clients as target namespace strings and iterate over the list with a single kubernetes secret:
-# 
+#
 # resource "kubernetes_secret" "additional_secrets" {
 #   for_each = toset(var.additional_topic_clients)
 #   metadata {
