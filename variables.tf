@@ -1,4 +1,6 @@
-# Module variables
+#################
+# Configuration #
+#################
 variable "topic_display_name" {
   description = "The display name of your SNS Topic. MUST BE UNDER 10 CHARS"
   type        = string
@@ -10,7 +12,14 @@ variable "encrypt_sns_kms" {
   default     = false
 }
 
-# Used for naming things and tags
+variable "additional_topic_clients" {
+  description = "A list of additional clients that require access to the topic. A dedicated IAM user and access key will be created for each client."
+  default     = []
+}
+
+########
+# Tags #
+########
 variable "business_unit" {
   description = "Area of the MOJ responsible for the service"
   type        = string
@@ -22,13 +31,17 @@ variable "application" {
 }
 
 variable "is_production" {
-  description = "Whether the environment is production or not"
+  description = "Whether this is used for production or not"
   type        = string
-  default     = "false"
 }
 
 variable "team_name" {
   description = "Team name"
+  type        = string
+}
+
+variable "namespace" {
+  description = "Namespace name"
   type        = string
 }
 
@@ -40,14 +53,4 @@ variable "environment_name" {
 variable "infrastructure_support" {
   description = "The team responsible for managing the infrastructure. Should be of the form <team-name> (<team-email>)"
   type        = string
-}
-
-variable "namespace" {
-  description = "Namespace name"
-  type        = string
-}
-
-variable "additional_topic_clients" {
-  description = "A list of additional clients that require access to the topic. A dedicated IAM user and access key will be created for each client."
-  default     = []
 }
