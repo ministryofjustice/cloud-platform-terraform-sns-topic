@@ -1,37 +1,44 @@
 # cloud-platform-terraform-sns-topic
 
-[![Releases](https://img.shields.io/github/release/ministryofjustice/cloud-platform-terraform-sns-topic.svg)](https://github.com/ministryofjustice/cloud-platform-terraform-sns-topic/releases)
+[![Releases](https://img.shields.io/github/v/release/ministryofjustice/cloud-platform-terraform-sns-topic.svg)](https://github.com/ministryofjustice/cloud-platform-terraform-sns-topic/releases)
 
-Terraform module that will create an SNS Topic in AWS, along with an IAM User to access it.
+This Terraform module will create an [Amazon SNS](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) topic for use on the Cloud Platform.
 
 ## Usage
 
 ```hcl
-module "example_sns_topic" {
-  source = "github.com/ministryofjustice/cloud-platform-terraform-sns?ref=version"
+module "sns_topic" {
+  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=version" # use the latest release
 
-  team_name          = "example-team"
-  topic_display_name = "example-topic-display-name"
+  # Configuration
+  topic_display_name = "example"
+  encrypt_sns_kms    = true
 
-  providers = {
-    aws = aws.london
-  }
+  # Tags
+  business_unit          = var.business_unit
+  application            = var.application
+  is_production          = var.is_production
+  team_name              = var.team_name # also used for naming the topic
+  namespace              = var.namespace
+  environment_name       = var.environment
+  infrastructure_support = var.infrastructure_support
 }
 ```
 
-## SQS Subscription
+### Adding a subscription to SQS
 
-For an SQS queue defined in the same namespace's /resources, a subscription can be added with a syntax like
+For an SQS queue defined in the same namespace, you can add an SNS topic subscription:
 
 ```hcl
-resource "aws_sns_topic_subscription" "example-queue-subscription" {
-  provider      = "aws.london"
-  topic_arn     = "${module.example_sns_topic.topic_arn}"
+resource "aws_sns_topic_subscription" "queue" {
+  topic_arn     = module.sns_topic.topic_arn
+  endpoint      = module.sns_topic.topic_arn
   protocol      = "sqs"
-  endpoint      = "${module.example_sqs.sqs_arn}"
   filter_policy = "{\"field_name\": [\"string_pattern\", \"string_pattern\", \"...\"]}"
 }
 ```
+
+See the [examples/](examples/) folder for more information.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -100,3 +107,14 @@ No modules.
 | <a name="output_topic_name"></a> [topic\_name](#output\_topic\_name) | ARN for the topic |
 | <a name="output_user_name"></a> [user\_name](#output\_user\_name) | IAM user with access to the topic |
 <!-- END_TF_DOCS -->
+
+## Tags
+
+Some of the inputs for this module are tags. All infrastructure resources must be tagged to meet the MOJ Technical Guidance on [Documenting owners of infrastructure](https://technical-guidance.service.justice.gov.uk/documentation/standards/documenting-infrastructure-owners.html).
+
+You should use your namespace variables to populate these. See the [Usage](#usage) section for more information.
+
+## Reading Material
+
+- [Cloud Platform user guide](https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide)
+- [Amazon Simple Notification Service developer guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)
