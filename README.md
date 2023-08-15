@@ -32,7 +32,7 @@ For an SQS queue defined in the same namespace, you can add an SNS topic subscri
 ```hcl
 resource "aws_sns_topic_subscription" "queue" {
   topic_arn     = module.sns_topic.topic_arn
-  endpoint      = module.sns_topic.topic_arn
+  endpoint      = module.sqs_queue.sqs_arn
   protocol      = "sqs"
   filter_policy = "{\"field_name\": [\"string_pattern\", \"string_pattern\", \"...\"]}"
 }
