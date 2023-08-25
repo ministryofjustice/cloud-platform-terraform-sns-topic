@@ -101,7 +101,7 @@ No modules.
 |------|-------------|
 | <a name="output_access_key_id"></a> [access\_key\_id](#output\_access\_key\_id) | The access key ID |
 | <a name="output_additional_access_keys"></a> [additional\_access\_keys](#output\_additional\_access\_keys) | The list of access keys for additional teams |
-| <a name="output_irsa_policy_arn"></a> [irsa\_policy\_arn](#output\_irsa\_policy\_arn) | n/a |
+| <a name="output_irsa_policy_arn"></a> [irsa\_policy\_arn](#output\_irsa\_policy\_arn) | IAM policy ARN for access to the SNS topic |
 | <a name="output_secret_access_key"></a> [secret\_access\_key](#output\_secret\_access\_key) | The secret access key ID |
 | <a name="output_topic_arn"></a> [topic\_arn](#output\_topic\_arn) | ARN for the topic |
 | <a name="output_topic_name"></a> [topic\_name](#output\_topic\_name) | ARN for the topic |
