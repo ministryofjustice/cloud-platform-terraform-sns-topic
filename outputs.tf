@@ -35,5 +35,6 @@ output "additional_access_keys" {
 }
 
 output "irsa_policy_arn" {
-  value = aws_iam_policy.irsa.arn
+  description = "IAM policy ARN for access to the SNS topic"
+  value       = aws_iam_policy.irsa.arn
 }

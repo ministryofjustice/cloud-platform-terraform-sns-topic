@@ -1,8 +1,9 @@
-data "aws_caller_identity" "current" {}
-
 locals {
+  # Generic configuration
+  identifier         = "cloud-platform-${var.team_name}-${random_id.id.hex}"
   additional_clients = toset(var.additional_topic_clients)
 
+  # Tags
   default_tags = {
     # Mandatory
     business-unit = var.business_unit
@@ -16,12 +17,24 @@ locals {
     infrastructure-support = var.infrastructure_support
   }
 }
+
+###########################
+# Get account information #
+###########################
+data "aws_caller_identity" "current" {}
+
+########################
+# Generate identifiers #
+########################
 resource "random_id" "id" {
   byte_length = 16
 }
 
+#########################
+# Create encryption key #
+#########################
 resource "aws_kms_key" "kms" {
-  description = "KMS key for cloud-platform-${var.team_name}-${random_id.id.hex}"
+  description = "KMS key for ${local.identifier}"
   count       = var.encrypt_sns_kms ? 1 : 0
 
   policy = <<EOF
@@ -87,27 +100,20 @@ EOF
 
 resource "aws_kms_alias" "alias" {
   count         = var.encrypt_sns_kms ? 1 : 0
-  name          = "alias/cloud-platform-${var.team_name}-${random_id.id.hex}"
+  name          = "alias/${local.identifier}"
   target_key_id = aws_kms_key.kms[0].key_id
 }
 
-# SNS topics didn't initially support tagging, so the SNS topic name includes
-# the team name for identification purposes.
-# Tagging was added to this module on 2022-12-28.
+################
+# Create topic #
+################
 resource "aws_sns_topic" "new_topic" {
-  name              = "cloud-platform-${var.team_name}-${random_id.id.hex}"
-  display_name      = var.topic_display_name
-  kms_master_key_id = var.encrypt_sns_kms ? join("", aws_kms_key.kms[*].arn) : ""
+  name = local.identifier
 
-  tags = {
-    business-unit          = var.business_unit
-    application            = var.application
-    is-production          = var.is_production
-    owner                  = var.team_name
-    environment-name       = var.environment_name
-    infrastructure-support = var.infrastructure_support
-    namespace              = var.namespace
-  }
+  display_name      = var.topic_display_name
+  kms_master_key_id = var.encrypt_sns_kms ? aws_kms_key.kms[0].arn : null
+
+  tags = local.default_tags
 }
 
 # Legacy long-lived credentials
@@ -186,12 +192,14 @@ resource "aws_iam_user_policy" "additional_users_policy" {
   user     = aws_iam_user.additional_users[each.value].name
 }
 
-# Short-lived credentials (IRSA)
+##############################
+# Create IAM role for access #
+##############################
 data "aws_iam_policy_document" "irsa" {
   version = "2012-10-17"
 
   statement {
-    sid    = "AlowTopicActions"
+    sid    = "AllowTopicActionsFor${random_id.id.hex}" # this is set to include the hex, so you can merge policies
     effect = "Allow"
     actions = [
       "sns:ListEndpointsByPlatformApplication",
