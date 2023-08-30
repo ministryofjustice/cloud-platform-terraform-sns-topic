@@ -12,11 +12,6 @@ variable "encrypt_sns_kms" {
   default     = false
 }
 
-variable "additional_topic_clients" {
-  description = "A list of additional clients that require access to the topic. A dedicated IAM user and access key will be created for each client."
-  default     = []
-}
-
 ########
 # Tags #
 ########
