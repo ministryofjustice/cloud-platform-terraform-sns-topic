@@ -91,7 +91,21 @@ resource "aws_kms_key" "kms" {
                 "kms:CallerAccount": "${data.aws_caller_identity.current.account_id}"
             }
         }
-      }
+      },
+      {
+        "Sid": "Allow CloudWatch use of the key",
+        "Effect": "Allow",
+        "Principal": {
+        "Service": [
+          "cloudwatch.amazonaws.com"
+        ]
+      },
+      "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey*"
+      ],
+      "Resource": "*"
+    }
     ]
   }
 EOF
