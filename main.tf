@@ -126,6 +126,8 @@ resource "aws_sns_topic" "new_topic" {
 
   display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? aws_kms_key.kms[0].arn : null
+  fifo_topic = var.fifo_topic
+  content_based_deduplication = var.content_based_deduplication
 
   tags = local.default_tags
 }
