@@ -1,6 +1,6 @@
 locals {
   # Generic configuration
-  topic_arn_suffix = var.fifo_topic ? "cloud-platform-${var.team_name}-${random_id.id.hex}.fifo" : "cloud-platform-${var.team_name}-${random_id.id.hex}"
+  topic_arn_suffix = "cloud-platform-${var.team_name}-${random_id.id.hex}"
 
   # Tags
   default_tags = {
@@ -122,7 +122,7 @@ resource "aws_kms_alias" "alias" {
 # Create topic #
 ################
 resource "aws_sns_topic" "new_topic" {
-  name = local.topic_arn_suffix
+  name = var.fifo_topic ? "${local.topic_arn_suffix}.fifo" : local.topic_arn_suffix
 
   display_name      = var.topic_display_name
   kms_master_key_id = var.encrypt_sns_kms ? aws_kms_key.kms[0].arn : null
