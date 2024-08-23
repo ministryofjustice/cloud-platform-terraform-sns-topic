@@ -12,6 +12,18 @@ variable "encrypt_sns_kms" {
   default     = false
 }
 
+variable "fifo_topic" {
+  description = "FIFO means exactly-once processing. Duplicates are not introduced into the topic."
+  type        = bool
+  default     = false
+}
+
+variable "content_based_deduplication" {
+  description = "Enables content-based deduplication for FIFO topic."
+  type        = bool
+  default     = null
+}
+
 ########
 # Tags #
 ########

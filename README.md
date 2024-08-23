@@ -25,6 +25,29 @@ module "sns_topic" {
 }
 ```
 
+### Example with First-In-First-Out (FIFO)
+
+```hcl
+module "sns_topic_fifo" {
+  source = "github.com/ministryofjustice/cloud-platform-terraform-sns-topic?ref=version" # use the latest release
+
+  # Configuration
+  topic_display_name          = "example-sns-fifo"
+  encrypt_sns_kms             = true
+  fifo_topic                  = true
+  content_based_deduplication = true
+
+  # Tags
+  business_unit          = var.business_unit
+  application            = var.application
+  is_production          = var.is_production
+  team_name              = var.team_name # also used for naming the topic
+  namespace              = var.namespace
+  environment_name       = var.environment
+  infrastructure_support = var.infrastructure_support
+}
+```
+
 ### Adding a subscription to SQS
 
 For an SQS queue defined in the same namespace, you can add an SNS topic subscription:
@@ -78,8 +101,10 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_application"></a> [application](#input\_application) | Application name | `string` | n/a | yes |
 | <a name="input_business_unit"></a> [business\_unit](#input\_business\_unit) | Area of the MOJ responsible for the service | `string` | n/a | yes |
+| <a name="input_content_based_deduplication"></a> [content\_based\_deduplication](#input\_content\_based\_deduplication) | Enables content-based deduplication for FIFO topic. | `bool` | `null` | no |
 | <a name="input_encrypt_sns_kms"></a> [encrypt\_sns\_kms](#input\_encrypt\_sns\_kms) | If set to true, this will create aws\_kms\_key and aws\_kms\_alias resources and add kms\_master\_key\_id in aws\_sns\_topic resource | `bool` | `false` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Environment name | `string` | n/a | yes |
+| <a name="input_fifo_topic"></a> [fifo\_topic](#input\_fifo\_topic) | FIFO means exactly-once processing. Duplicates are not introduced into the topic. | `bool` | `false` | no |
 | <a name="input_infrastructure_support"></a> [infrastructure\_support](#input\_infrastructure\_support) | The team responsible for managing the infrastructure. Should be of the form <team-name> (<team-email>) | `string` | n/a | yes |
 | <a name="input_is_production"></a> [is\_production](#input\_is\_production) | Whether this is used for production or not | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace name | `string` | n/a | yes |
