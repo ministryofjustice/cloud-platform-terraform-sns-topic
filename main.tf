@@ -130,6 +130,10 @@ resource "aws_sns_topic" "new_topic" {
   content_based_deduplication = var.content_based_deduplication
 
   tags = local.default_tags
+
+  lifecycle {
+    ignore_changes = [name]
+  }
 }
 
 ##############################
