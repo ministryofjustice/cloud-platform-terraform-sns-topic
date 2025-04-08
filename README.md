@@ -63,6 +63,12 @@ resource "aws_sns_topic_subscription" "queue" {
 
 See the [examples/](examples/) folder for more information.
 
+## Team name caveat
+
+This module utilises your environemnt `team_name` variable in the naming of your SNS topic, in the format `cloud-platform-<var.team_name>-<random hex string>`. This historically introduced an issue whereby a team name change would result in Terraform forcefully replacing the SNS topic. To get around this issue, a [lifecycle](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) `ignore_changes` block has been introduced, so that team name changes can be made without causing this issue.
+
+However, its important to note that if you do change the team name in your environment variables, it will not be reflected in the SNS topic name. If you want to update the name, you will need to look at deleting and recreating your SNS topic(s). 
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
