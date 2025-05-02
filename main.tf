@@ -35,7 +35,8 @@ resource "random_id" "id" {
 resource "aws_kms_key" "kms" {
   description = "KMS key for ${local.topic_arn_suffix}"
   count       = var.encrypt_sns_kms ? 1 : 0
-
+  tags = local.default_tags
+  
   policy = <<EOF
   {
     "Version": "2012-10-17",
